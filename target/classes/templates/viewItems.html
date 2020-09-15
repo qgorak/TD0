@@ -2,16 +2,19 @@
 <h1>Eléments</h1>
 <div class="ui list">
 {{#items}}
-<div class="item">
 
-{{nom}} 
+<div class="ui label">
+{{nom}}
+<div class="detail">{{evaluation}}</div>
+
+
 </div>
-<div class="item">
-{{evaluation}}
-</item>
+
+
+
 <button onclick="window.location.href='/items/dec/{{nom}}'">-</button>
 <button onclick="window.location.href='/items/inc/{{nom}}'">+</button>
-<button onclick="window.location.href='/items/delete/{{nom}}'">X</button>
+<button onclick="window.location.href='/items/delete/{{nom}}'"><i class="close icon"></i></button>
 <hr>
 {{/items}}
 </div>

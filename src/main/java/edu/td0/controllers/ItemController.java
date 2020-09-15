@@ -35,12 +35,14 @@ public class ItemController {
     }
 	@ModelAttribute("categories") 
     public List<Categorie> getCategorie(){
+		
         return new ArrayList<>();
     }
 	
+	
 	@RequestMapping("/index")
 	public String index(@ModelAttribute("categories") List<Categorie> categories) {
-		categories.add(new Categorie("test"));
+		
 		return "index";
 	}
 

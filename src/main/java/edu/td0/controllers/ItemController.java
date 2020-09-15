@@ -1,4 +1,5 @@
 package edu.td0.controllers;
+import edu.td0.models.Categorie;
 import edu.td0.models.Element;
 
 
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 @SessionAttributes("items")
 
+
  
 public class ItemController {
 	
@@ -31,9 +33,14 @@ public class ItemController {
     public List<Element> getItems(){
         return new ArrayList<>();
     }
+	@ModelAttribute("categories") 
+    public List<Categorie> getCategorie(){
+        return new ArrayList<>();
+    }
 	
 	@RequestMapping("/index")
-	public String index() {
+	public String index(@ModelAttribute("categories") List<Categorie> categories) {
+		categories.add(new Categorie("test"));
 		return "index";
 	}
 
@@ -81,9 +88,11 @@ public class ItemController {
 			
 	        if (item.getNom().equals(nom)) {
 	            items.remove(i);
+	            break;
 	        }
 	        i++;
 	    }
+		i=0;
 	    return new RedirectView("/items/");
 	}
 	

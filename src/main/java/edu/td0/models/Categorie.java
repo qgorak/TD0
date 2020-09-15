@@ -5,12 +5,12 @@ import java.util.List;
 
 
 public class Categorie {
-	private String name;
+	private String libelle;
 	List<Element> items;
 
-	public Categorie(String name) {
+	public Categorie(String libelle) {
 
-		this.name=name;
+		this.libelle=libelle;
 		items=new ArrayList<Element>();
 	}
 

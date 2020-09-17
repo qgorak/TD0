@@ -39,6 +39,9 @@ public class Element extends Object{
 	public boolean equals(Object obj) {
 		return true;
 	}
+	public String toString() {
+		return this.nom;
+	}
 	
 	
 	

@@ -3,11 +3,46 @@
 
 <h1>Catégories</h1>
 
+<div class="ui grid page">
+<div class="column">
+  <div class="ui segment">
+    <div class="ui menu top">
+    
 {{#categories}}
-
-
-{{libelle}} 
-
+      <a class="item" data-tab={{libelle}}>{{libelle}}</a>
 {{/categories}}
-<a href="/items">go to items</a>
+      
+    </div>
+    
+{{#categories}}
+    <div class="ui tab" data-tab={{libelle}}>
+    {{#items}} 
+    <ul>
+    <li>  {{nom}}
+    <div class="ui rating" data-rating={{evaluation}} data-max-rating="10"></div>
+    
+    <button onclick="window.location.href='/items/dec/{{nom}}'">-</button>
+<button onclick="window.location.href='/items/inc/{{nom}}'">+</button>
+<button onclick="window.location.href='/items/delete/{{nom}}'"><i class="close icon"></i></button>
+<hr>
+    
+    
+
+
+      </ul>
+      {{/items}} 
+    </div>
+    {{/categories}}
+  </div>
+</div>
+</div>
+
+
+
+<a href="/items/addNew">add Item</a>
+
+
+
+    
+	
 {{> include/footer}}

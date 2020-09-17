@@ -1,0 +1,23 @@
+{{> include/header}}
+<h1>Ajouter Item</h1>
+
+<form method="POST" action="/items/New" modelAttribute="categories">
+  <div class="ui input">
+    <input type="text" name="nom" />
+    </div>
+
+    
+<div class="ui selection dropdown">
+  <input type="hidden" name="cat">
+  <i class="dropdown icon"></i>
+  <div class="default text">Categorie</div>
+  <div class="menu">
+  {{#categories}}
+    <div class="item" data-value={{libelle}}>{{libelle}}</div>
+  {{/categories}}
+  </div>
+</div>
+<input class="ui button" type="submit" value="Ajouter">
+</form>
+<a href="/">Back</a>
+{{> include/footer}}

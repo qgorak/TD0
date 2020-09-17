@@ -23,7 +23,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
-@SessionAttributes("items")
+@SessionAttributes({"items","categories"})
+
 
 
  
@@ -33,6 +34,7 @@ public class ItemController {
     public List<Element> getItems(){
         return new ArrayList<>();
     }
+	
 	@ModelAttribute("categories") 
     public List<Categorie> getCategorie(){
 		
@@ -40,8 +42,17 @@ public class ItemController {
     }
 	
 	
-	@RequestMapping("/index")
+	@RequestMapping("/")
 	public String index(@ModelAttribute("categories") List<Categorie> categories) {
+		if(categories.size()==0) {
+			Categorie amis = new Categorie("Amis");
+			amis.addItem(new Element("test"));
+			amis.addItem(new Element("test2"));
+			categories.add(amis);
+			
+			categories.add(new Categorie("Famille"));
+			categories.add(new Categorie("Professionnels"));
+		}
 		
 		return "index";
 	}
@@ -49,53 +60,70 @@ public class ItemController {
 	
 	
 	
-	@RequestMapping("/items")
-	public String item(@ModelAttribute("items") List<Element> items) {
-		return "viewItems";
-	}
+//	@RequestMapping("/items")
+//	public String item(@ModelAttribute("items") List<Element> items) {
+//		return "viewItems";
+//	}
+	
+	//@RequestMapping("/items/new")
+	//public String newitem(@ModelAttribute("items") List<Element> items) {
+	//	return "index";
+//	}
 
 	
-	//@RequestMapping("/items/addNew")
-	//public String addNewItem() {
-	//	return "viewNewItems";
-	//}
-	@PostMapping("items/addNew")
-	public RedirectView addNew(@RequestParam String nom,@ModelAttribute("items") List<Element> items) {
-		
-		items.add(new Element(nom));
-	    return new RedirectView("/items/");
+	@RequestMapping("/items/addNew")
+	public String addNewItem() {
+		return "viewNewItems";
+	}
+	@PostMapping("items/New")
+	public RedirectView New(@RequestParam String nom,@RequestParam String cat,@ModelAttribute("categories") List<Categorie> categories) {
+		for(Categorie categorie : categories) {
+			 if (categorie.getLibelle().equals(cat)) {
+		            categorie.addItem(new Element(nom));
+		        }
+			
+
+	    
+	}
+		return new RedirectView("/");
 	}
 	@RequestMapping("items/inc/{nom}")
-	public RedirectView incItem(@PathVariable String nom,@ModelAttribute("items") List<Element> items) {
-		for (Element item : items) {
+	public RedirectView incItem(@PathVariable String nom,@ModelAttribute("categories") List<Categorie> categories) {
+		for(Categorie categorie : categories) {
+			for (Element item : categorie.getItems()) {
 	        if (item.getNom().equals(nom)) {
 	            item.incEvaluation();
 	        }
 	    }
-	    return new RedirectView("/items/");
+		}
+	    return new RedirectView("/");
 	}
 	@RequestMapping("items/dec/{nom}")
-	public RedirectView decItem(@PathVariable String nom,@ModelAttribute("items") List<Element> items) {
-		for (Element item : items) {
+	public RedirectView decItem(@PathVariable String nom,@ModelAttribute("categories") List<Categorie> categories) {
+		for(Categorie categorie : categories) {
+			for (Element item : categorie.getItems()) {
 	        if (item.getNom().equals(nom)) {
 	            item.decEvaluation();
 	        }
 	    }
-	    return new RedirectView("/items/");
+		}
+	    return new RedirectView("/");
 	}
 	@RequestMapping("items/delete/{nom}")
-	public RedirectView deleteItem(@PathVariable String nom,@ModelAttribute("items") List<Element> items) {
+	public RedirectView deleteItem(@PathVariable String nom,@ModelAttribute("categories") List<Categorie> categories) {
 		int i = 0;
-		for (Element item : items) {
-			
+		for(Categorie categorie : categories) {
+			i=0;
+		for (Element item : categorie.getItems()) {
 	        if (item.getNom().equals(nom)) {
-	            items.remove(i);
+	            categorie.deleteItem(i);
 	            break;
 	        }
 	        i++;
 	    }
+		}
 		i=0;
-	    return new RedirectView("/items/");
+	    return new RedirectView("/");
 	}
 	
 	

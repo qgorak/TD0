@@ -84,15 +84,25 @@ public class ItemController {
 		categories.add(new Categorie(nom));
 		return new RedirectView("/");
 	}
+
 	
-	@PostMapping("items/New")
-	public RedirectView New(@RequestParam String nom,@RequestParam String cat,@ModelAttribute("categories") List<Categorie> categories) {
+	@RequestMapping("deleteCat/{libelle}")
+	public RedirectView delCat(@PathVariable String libelle,@ModelAttribute("categories") List<Categorie> categories) {
+		int i = 0;
+		int len = categories.size();
 		for(Categorie categorie : categories) {
-			 if (categorie.getLibelle().equals(cat)) {
-		            categorie.addItem(new Element(nom));
-		     }
-		}
-		return new RedirectView("/");
+			
+	        if (categorie.getLibelle().equals(libelle) && (len!=1)  ){
+	        	categories.remove(i);
+	        	i=0;
+	        	break;
+	            
+	        }
+	        i++;
+	    }
+		i=0;
+		
+	    return new RedirectView("/");
 	}
 	
 	@RequestMapping("items/inc/{nom}")

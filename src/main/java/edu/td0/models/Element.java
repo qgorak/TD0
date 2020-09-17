@@ -30,10 +30,14 @@ public class Element extends Object{
 		this.evaluation = evaluation;
 	}
 	public void incEvaluation() {
+		if (this.evaluation!=10) {
 		this.evaluation = this.evaluation+1;
+		}
 	}
 	public void decEvaluation() {
+		if (this.evaluation!=0) {
 		this.evaluation = this.evaluation-1;
+		}
 	}
 	@Override
 	public boolean equals(Object obj) {

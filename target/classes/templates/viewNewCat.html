@@ -1,0 +1,14 @@
+{{> include/header}}
+<h1>Ajouter Categorie</h1>
+
+<form method="POST" action="/newCat" modelAttribute="categories">
+  <div class="ui input">
+    <input type="text" name="nom" />
+    </div>
+
+    
+
+<input class="ui button" type="submit" value="Ajouter">
+</form>
+<a href="/">Back</a>
+{{> include/footer}}

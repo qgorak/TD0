@@ -10,27 +10,30 @@
     
 {{#categories}}
       <a class="item" data-tab={{libelle}}>{{libelle}}</a>
+
 {{/categories}}
+<a class="item" href="/cat"><i class="plus circle icon"></i></a>
       
     </div>
     
 {{#categories}}
     <div class="ui tab" data-tab={{libelle}}>
+     <ul>
     {{#items}} 
-    <ul>
+   
     <li>  {{nom}}
     <div class="ui rating" data-rating={{evaluation}} data-max-rating="10"></div>
     
-    <button onclick="window.location.href='/items/dec/{{nom}}'">-</button>
-<button onclick="window.location.href='/items/inc/{{nom}}'">+</button>
-<button onclick="window.location.href='/items/delete/{{nom}}'"><i class="close icon"></i></button>
+    <button class="ui icon button" onclick="window.location.href='/items/dec/{{nom}}'"><i class="minus circle icon"></i></button>
+<button class="ui icon button" onclick="window.location.href='/items/inc/{{nom}}'"><i class="plus circle icon"></i></button>
+<button class="ui icon red button" onclick="window.location.href='/items/delete/{{nom}}'"><i class="x icon"></i></i></button>
 <hr>
-    
-    
-
-
-      </ul>
-      {{/items}} 
+ 
+ {{/items}}
+ <li><a href="/items/addNew/#{{libelle}}">add Item</a></li>
+       </ul>  
+      
+      
     </div>
     {{/categories}}
   </div>
@@ -39,7 +42,7 @@
 
 
 
-<a href="/items/addNew">add Item</a>
+
 
 
 

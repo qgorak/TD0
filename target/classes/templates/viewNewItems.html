@@ -1,7 +1,9 @@
 {{> include/header}}
 <h1>Ajouter Item</h1>
 
-<form method="POST" action="/items/New" modelAttribute="categories">
+<div class="ui red message" >{{message}}</div>
+
+<form method="POST" action="/NewItem" modelAttribute="categories">
   <div class="ui input">
     <input type="text" name="nom" />
     </div>
@@ -11,6 +13,7 @@
   <input type="hidden" name="cat">
   <i class="dropdown icon"></i>
   <div class="default text">Categorie</div>
+  
   <div class="menu">
   {{#categories}}
     <div class="active item" data-value={{libelle}}>{{libelle}}</div>
@@ -20,4 +23,7 @@
 <input class="ui button" type="submit" value="Ajouter">
 </form>
 <a href="/">Back</a>
+
+
+
 {{> include/footer}}

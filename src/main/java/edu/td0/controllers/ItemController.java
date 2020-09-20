@@ -1,8 +1,7 @@
 package edu.td0.controllers;
 import edu.td0.models.Categorie;
 import edu.td0.models.Element;
-
-
+import edu.td0.models.MessageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,15 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 @Controller
-@SessionAttributes({"items","categories"})
+@SessionAttributes({"items","categories","message"})
 
 
 
  
 public class ItemController {
 	
+
+
 	@ModelAttribute("items") 
     public List<Element> getItems(){
         return new ArrayList<>();
@@ -41,19 +42,27 @@ public class ItemController {
         return new ArrayList<>();
     }
 	
+	@ModelAttribute("message") 
+    public MessageView getMessage(){
+		
+		return new MessageView();
+    }
+
+
+	
 	
 	@RequestMapping("/")
-	public String index(@ModelAttribute("categories") List<Categorie> categories) {
+	public String index(@ModelAttribute("categories") List<Categorie> categories,@ModelAttribute("message") MessageView message) {
 		if(categories.size()==0) {
 			Categorie amis = new Categorie("Amis");
 			amis.addItem(new Element("Michel"));
 			amis.addItem(new Element("Philippe"));
 			categories.add(amis);
-			
+
 			categories.add(new Categorie("Famille"));
 			categories.add(new Categorie("Professionnels"));
 		}
-		
+		message.setMessage("");
 		return "index";
 	}
 
@@ -71,16 +80,19 @@ public class ItemController {
 //	}
 
 	
-	@RequestMapping("/items/addNew")
-	public String addNewItem() {
-		return "viewNewItems";
-	}
+
 	@RequestMapping("/cat")
 	public String addNewCat() {
 		return "viewNewCat";
 	}
 	@PostMapping("newCat")
-	public RedirectView NewCat(@RequestParam String nom,@ModelAttribute("categories") List<Categorie> categories) {
+	public RedirectView NewCat(@RequestParam String nom,@ModelAttribute("categories") List<Categorie> categories,@ModelAttribute("message") MessageView message) {
+		for(Categorie categorie : categories) {
+			 if (categorie.getLibelle().equals(nom)) {
+		        	message.setMessage("le nom de la catégorie est déjà utilisé");
+		        	return new RedirectView("cat");
+			 }
+		}
 		categories.add(new Categorie(nom));
 		return new RedirectView("/");
 	}
@@ -103,6 +115,32 @@ public class ItemController {
 		i=0;
 		
 	    return new RedirectView("/");
+	}
+	@RequestMapping("/addNewItem")
+	public String addNewItem() {
+		return "viewNewItems";
+	}
+	
+	@PostMapping("NewItem")
+	public RedirectView New(@RequestParam String nom,@RequestParam String cat,@ModelAttribute("categories") List<Categorie> categories, @ModelAttribute("message") MessageView message) {
+		if(nom.length() > 8) {
+        	message.setMessage("le nom de l'élément ne doit pas dépasser 8 caractères");
+        	return new RedirectView("addNewItem");
+		}
+		for(Categorie categorie : categories) {
+			 if (categorie.getLibelle().equals(cat)) {
+				 for (Element item : categorie.getItems()) {
+				        if (item.getNom().equals(nom)) {
+				        	message.setMessage("Un élément porte déjà ce nom");
+				        	return new RedirectView("addNewItem");
+				        }
+				    }   
+				 message.setMessage("Elément ajouté avec succès !");
+				 categorie.addItem(new Element(nom));
+		            
+			 }
+		}
+		return new RedirectView("/");
 	}
 	
 	@RequestMapping("items/inc/{nom}")

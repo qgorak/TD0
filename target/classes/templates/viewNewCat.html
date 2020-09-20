@@ -1,6 +1,6 @@
 {{> include/header}}
 <h1>Ajouter Categorie</h1>
-
+<div class="ui red message" >{{message}}</div>
 <form method="POST" action="/newCat" modelAttribute="categories">
   <div class="ui input">
     <input type="text" name="nom" />
